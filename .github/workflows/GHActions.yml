@@ -36,9 +36,14 @@ jobs:
       - name: Run POSTMAN collection
         run: |
           newman run store.collection.json -e StoreEnv.postman_environment.json -r htmlextra --reporter-htmlextra-export testResults/index.html
-
+      - name: Output the run Details
+        uses: actions/upload-artifact@v2
+        with:
+          name: RunReports
+          path: testResults
 
       - name: Deploy 
         uses: JamesIves/github-pages-deploy-action@v4
         with:
           folder: testResults
+          branch: gh-pages
