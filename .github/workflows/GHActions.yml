@@ -36,14 +36,16 @@ jobs:
       - name: Run POSTMAN collection
         run: |
           newman run store.collection.json -e StoreEnv.postman_environment.json -r htmlextra --reporter-htmlextra-export testResults/index.html
-      - name: Output the run Details
-        uses: actions/upload-artifact@v2
-        with:
-          name: RunReports
-          path: ./testResults
-
-      - name: Deploy 
-        uses: JamesIves/github-pages-deploy-action@v4
-        with:
-          folder: ./testResults
-          branch: gh-pages
+      - name: Upload artifact report
+              uses: actions/upload-artifact@v3
+              if: always()
+              with:
+                  name: report
+                  path: ./testResults 
+      - name: Deploy to pages
+              if: always()
+              uses: peaceiris/actions-gh-pages@v3.7.3
+              with:
+                  github_token: ${{ secrets.GITHUB_TOKEN }}
+                  publish_branch: gh-pages
+                  publish_dir: testResults/ 
