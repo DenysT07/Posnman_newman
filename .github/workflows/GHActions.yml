@@ -25,10 +25,10 @@ jobs:
         continue-on-error: true
         run: |
           npx newman run store.collection.json -e StoreEnv.postman_environment.json -r cli,htmlextra --reporter-htmlextra-export ./testResults/index.html
-      - name: Deploy report page
+      - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
         with:
-         github_token: ${{ secrets.NEWMAN_TOKEN }}
+         github_token: ${{ secrets.GITHUB_TOKEN }}
          publish_dir: ./testResults
          user_name: 'github-actions[bot]'
          user_email: 'github-actions[bot]@users.noreply.github.com'
